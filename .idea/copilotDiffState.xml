@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/build.gradle.kts">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/build.gradle.kts" />
+              <option name="originalContent" value="plugins {&#10;    id(&quot;java&quot;)&#10;}&#10;&#10;group = &quot;org.example&quot;&#10;version = &quot;1.0-SNAPSHOT&quot;&#10;&#10;repositories {&#10;    mavenCentral()&#10;}&#10;&#10;dependencies {&#10;    testImplementation(platform(&quot;org.junit:junit-bom:5.10.0&quot;))&#10;    testImplementation(&quot;org.junit.jupiter:junit-jupiter&quot;)&#10;}&#10;&#10;tasks.test {&#10;    useJUnitPlatform()&#10;}" />
+              <option name="updatedContent" value="plugins {&#10;    id(&quot;java&quot;)&#10;}&#10;&#10;group = &quot;org.example&quot;&#10;version = &quot;1.0-SNAPSHOT&quot;&#10;&#10;repositories {&#10;    mavenCentral()&#10;}&#10;&#10;dependencies {&#10;    testImplementation(platform(&quot;org.junit:junit-bom:5.10.0&quot;))&#10;    testImplementation(&quot;org.junit.jupiter:junit-jupiter&quot;)&#10;    // Kafka dependencies&#10;    implementation(&quot;org.apache.kafka:kafka-clients:3.7.0&quot;)&#10;    implementation(&quot;org.slf4j:slf4j-simple:2.0.13&quot;)&#10;}&#10;&#10;tasks.test {&#10;    useJUnitPlatform()&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/example/KafkaConsumerExample.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/main/java/org/example/KafkaConsumerExample.java" />
+              <option name="updatedContent" value="package org.example;&#10;&#10;import org.apache.kafka.clients.consumer.ConsumerConfig;&#10;import org.apache.kafka.clients.consumer.ConsumerRecords;&#10;import org.apache.kafka.clients.consumer.KafkaConsumer;&#10;import org.apache.kafka.clients.consumer.ConsumerRecord;&#10;import org.apache.kafka.common.serialization.StringDeserializer;&#10;&#10;import java.time.Duration;&#10;import java.util.Collections;&#10;import java.util.Properties;&#10;&#10;public class KafkaConsumerExample {&#10;    public static void main(String[] args) {&#10;        Properties props = new Properties();&#10;        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, &quot;localhost:9092&quot;);&#10;        props.put(ConsumerConfig.GROUP_ID_CONFIG, &quot;test-group&quot;);&#10;        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());&#10;        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());&#10;        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, &quot;earliest&quot;);&#10;&#10;        try (KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer&lt;&gt;(props)) {&#10;            consumer.subscribe(Collections.singletonList(&quot;test-topic&quot;));&#10;            while (true) {&#10;                ConsumerRecords&lt;String, String&gt; records = consumer.poll(Duration.ofMillis(100));&#10;                for (ConsumerRecord&lt;String, String&gt; record : records) {&#10;                    System.out.printf(&quot;Consumed: key=%s, value=%s, offset=%d%n&quot;, record.key(), record.value(), record.offset());&#10;                }&#10;            }&#10;        }&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/org/example/KafkaProducerExample.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/main/java/org/example/KafkaProducerExample.java" />
+              <option name="originalContent" value="package org.example;&#10;&#10;import org.apache.kafka.clients.producer.KafkaProducer;&#10;import org.apache.kafka.clients.producer.ProducerRecord;&#10;import org.apache.kafka.clients.producer.ProducerConfig;&#10;import org.apache.kafka.common.serialization.StringSerializer;&#10;&#10;import java.util.Properties;&#10;&#10;public class KafkaProducerExample {&#10;    public static void main(String[] args) {&#10;        Properties props = new Properties();&#10;        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, &quot;localhost:9092&quot;);&#10;        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());&#10;        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());&#10;&#10;        try (KafkaProducer&lt;String, String&gt; producer = new KafkaProducer&lt;&gt;(props)) {&#10;            for (int i = 0; i &lt; 10; i++) {&#10;                producer.send(new ProducerRecord&lt;&gt;(&quot;test-topic&quot;, &quot;key-&quot; + i, &quot;value-&quot; + i));&#10;                System.out.println(&quot;Sent: key-&quot; + i + &quot;, value-&quot; + i);&#10;            }&#10;        }&#10;    }&#10;}&#10;" />
+              <option name="updatedContent" value="package org.example;&#10;&#10;import org.apache.kafka.clients.producer.KafkaProducer;&#10;import org.apache.kafka.clients.producer.ProducerRecord;&#10;import org.apache.kafka.clients.producer.ProducerConfig;&#10;import org.apache.kafka.common.serialization.StringSerializer;&#10;&#10;import java.util.Properties;&#10;&#10;public class KafkaProducerExample {&#10;    public static void main(String[] args) {&#10;        Properties props = new Properties();&#10;        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, &quot;localhost:9092&quot;);&#10;        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());&#10;        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());&#10;&#10;        try (KafkaProducer&lt;String, String&gt; producer = new KafkaProducer&lt;&gt;(props)) {&#10;            for (int i = 0; i &lt; 10; i++) {&#10;                producer.send(new ProducerRecord&lt;&gt;(&quot;test-topic&quot;, &quot;key-&quot; + i, &quot;value-&quot; + i));&#10;                System.out.println(&quot;Sent: key-&quot; + i + &quot;, value-&quot; + i);&#10;            }&#10;        }&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
